@@ -1,0 +1,45 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url      = env("DATABASE_URL")
+  directUrl = env("DATABASE_URL_UNPOOLED")
+}
+
+model Admin {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Advertisement {
+  id              String               @id @default(cuid())
+  organizationName String              @default("")
+  title           String?
+  videoUrl        String
+  thumbnailUrl    String?
+  status          String               @default("ACTIVE")
+  displayOrder    Int                  @default(0)
+  contactPhone    String?
+  notes           String?
+  createdAt       DateTime             @default(now())
+  activatedAt     DateTime             @default(now())
+  expiresAt       DateTime
+  updatedAt       DateTime             @updatedAt
+}
+
+model Settings {
+  id               String   @id @default(cuid())
+  websiteName      String   @default("Voltmix")
+  logoUrl          String?
+  contactPhone     String   @default("+976 9911 2233")
+  contactText      String   @default("Зар сурталчилгаа байршуулах")
+  videoFitMode     String   @default("cover")
+  transitionDuration Int     @default(350)
+  idleScreenText   String   @default("Таны сурталчилгаа энд байрлах боломжтой.")
+  updatedAt        DateTime @updatedAt
+}
